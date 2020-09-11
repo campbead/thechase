@@ -1,0 +1,48 @@
+---
+title: "The Chase"
+author: "Adam J Campbell"
+date: "04/09/2020"
+output: html_document
+---
+
+```{r}
+library(rvest)
+library(tidyverse)
+```
+
+```{r}
+url <- "http://onequestionshootout.xyz/players/series_all.htm"
+
+players <- url %>%
+  xml2::read_html() %>%
+  html_nodes("table") %>%
+  .[2] %>%
+  html_table(fill = TRUE)
+
+data <- players [[1]]
+```
+
+
+```{r}
+
+
+
+test<-data %>%
+  mutate(CashBuilder = parse_number(CashBuilder)) %>%
+  
+  mutate(ChosenOffer = str_replace(ChosenOffer, "=", "")) %>%
+  mutate(ChosenOffer = str_replace(ChosenOffer, "/", "")) %>%
+  mutate(ChosenOffer = str_replace(ChosenOffer, "£", "")) %>%
+  mutate(ChosenOffer = gsub("([\\])", "", ChosenOffer) ) %>%
+  mutate(ChosenOffer = parse_number(ChosenOffer)) %>%
+  
+  mutate(LowerOffer = str_replace(LowerOffer, "£", "")) %>%
+  mutate(LowerOffer = parse_number(LowerOffer)) %>%
+
+  mutate(HigherOffer = parse_number(HigherOffer)) %>%
+  
+  mutate(HTHResult = parse_number(HTHResult))
+
+test$Date <- as.Date(test$Date,"%d/%m/%Y")
+```
+

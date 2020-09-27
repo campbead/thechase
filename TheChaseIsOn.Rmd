@@ -8,6 +8,7 @@ output: html_document
 ```{r}
 library(rvest)
 library(tidyverse)
+library(stringi)
 ```
 
 ```{r}
@@ -41,7 +42,19 @@ test<-data %>%
 
   mutate(HigherOffer = parse_number(HigherOffer)) %>%
   
-  mutate(HTHResult = parse_number(HTHResult))
+  mutate(HTHResult = parse_number(HTHResult)) %>%
+
+  mutate(FC_Correct_Answers_Player = stri_extract_first_regex(`FC CorrectAnswers`,"[0-9]+")) %>%
+  
+  mutate(FC_team_size = case_when(grepl("solo", `FC CorrectAnswers`, fixed = TRUE) == TRUE ~ "1",
+                                        grepl("solo", `FC CorrectAnswers`, fixed = TRUE) == FALSE ~ stri_extract_last_regex(`FC CorrectAnswers`,"[0-9]+")
+                                        )
+         ) %>%
+  
+  mutate(FC_Winner = case_when(grepl("Chaser", `FC Winner`, fixed = TRUE) == TRUE ~ "Chaser",
+                               grepl("Chaser", `FC Winner`, fixed = TRUE) == FALSE ~ "Team"
+                               )
+         )
 
 test$Date <- as.Date(test$Date,"%d/%m/%Y")
 ```

@@ -51,11 +51,37 @@ test<-data %>%
                                         )
          ) %>%
   
-  mutate(FC_Winner = case_when(grepl("Chaser", `FC Winner`, fixed = TRUE) == TRUE ~ "Chaser",
-                               grepl("Chaser", `FC Winner`, fixed = TRUE) == FALSE ~ "Team"
-                               )
-         )
+  mutate(
+    FC_Winner = case_when(
+      grepl("Chaser", `FC Winner`, fixed = TRUE) == TRUE ~ "Chaser",
+      grepl("Chaser", `FC Winner`, fixed = TRUE) == FALSE ~ "Team"
+      )
+    ) %>%
+  mutate(
+    Team_Win_Amount = case_when(
+      FC_Winner == "Team" ~ stri_extract_last_regex(`FC Winner`,"[0-9]+")
+    )
+  ) %>%
+  
+  mutate(
+    Chaser_Win_Amount = case_when(
+      FC_Winner == "Chaser" ~ stri_extract_last_regex(`FC Winner`,"[0-9]:[0-9]+")
+    )
+  ) %>%
+  
+  mutate(
+    Special_round = case_when(
+      grepl("✝", `FC CorrectAnswers`, fixed = TRUE) == TRUE ~ TRUE,
+      grepl("✝", `FC CorrectAnswers`, fixed = TRUE) == FALSE ~ FALSE,
+    )
+  ) %>%
+  
+  mutate(`Amount WonBy Player`= parse_number(`Amount WonBy Player`))
+
 
 test$Date <- as.Date(test$Date,"%d/%m/%Y")
 ```
 
+Things I need to do next:
+- get rid of columns you don't need
+- calc total correct answers for each team

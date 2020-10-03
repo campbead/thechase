@@ -95,3 +95,13 @@ foo<- test %>%
 ```
 
 Every date entry appears exactly 4 times.  This makes the next bit simplie, where I need to calculate the total correct number of answers for each team.
+
+```{r}
+episodes <- test %>%
+  group_by(Date) %>%
+  summarise(FC_team_answers = sum(as.numeric(FC_Correct_Answers_Player), na.rm = TRUE))
+```
+
+So I think what I want to do now is have 2 data frames:
+- a player-based dataframe
+- an episode-based dataframe

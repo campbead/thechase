@@ -85,3 +85,13 @@ test$Date <- as.Date(test$Date,"%d/%m/%Y")
 Things I need to do next:
 - get rid of columns you don't need
 - calc total correct answers for each team
+
+
+A quick test to see if any date has more than 4 entries (perhaps there was a double episode special or something)
+```{r}
+foo<- test %>%
+  group_by(Date) %>%
+  tally()
+```
+
+Every date entry appears exactly 4 times.  This makes the next bit simplie, where I need to calculate the total correct number of answers for each team.

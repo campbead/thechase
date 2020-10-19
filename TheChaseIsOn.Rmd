@@ -105,3 +105,36 @@ episodes <- test %>%
 So I think what I want to do now is have 2 data frames:
 - a player-based dataframe
 - an episode-based dataframe
+
+How do I make this data tidy?
+
+I'm reasonably certain my `test` dataframe is tidy.  I'm going to clean that dataframe up.
+
+```{r}
+player_data <- test %>%
+  select(-c(`FC CorrectAnswers`,`FC Winner`,bgc)) %>%
+  rename(PlayerNumber = `PlayerNo.`,
+         FC_CorrectAnswers = FC_Correct_Answers_Player,
+         FC_TeamSize = FC_team_size,
+         TeamWinAmount = Team_Win_Amount,
+         ChaserWinAmount = Chaser_Win_Amount,
+         SpecialRound = Special_round,
+         HTH_Result = HTHResult)
+```
+
+Okay now I am reasonably happy with that dataframe column names.  I chose camel casing but separating acronyms by underscores.  
+
+Let's try to get episode data
+
+```{r}
+url <- "http://onequestionshootout.xyz/episodes/series_all.htm"
+
+episode <- url %>%
+  xml2::read_html() %>%
+  html_nodes("table") %>%
+  .[2] %>%
+  html_table(fill = TRUE)
+
+data_episode <- episode [[1]]
+
+```

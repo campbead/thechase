@@ -95,7 +95,7 @@ foo<- test %>%
   tally()
 ```
 
-Every date entry appears exactly 4 times.  This makes the next bit simplie, where I need to calculate the total correct number of answers for each team.
+Every date entry appears exactly 4 times.  This makes the next bit simple, where I need to calculate the total correct number of answers for each team.
 
 ```{r}
 episodes <- test %>%
@@ -139,4 +139,29 @@ episode <- url %>%
 data_episode <- episode [[1]]
 
 ```
->>>>>>> 9a6c2d8432d1b7310fe3f25e25035a0231dd782a
+
+
+I'm tying to get the datasets into the minimal amounts
+
+I think the episode data should have :
+Date 
+Season #
+Episode #
+Chaser
+Players in final chase
+Final Chase Prise fund
+Target
+Winner
+Player win amount
+Chaser win amount
+Push back attempt
+Push back taken
+Chaser accuracy 
+Chaser speed
+
+```{r}
+data_episode_temp <- data_episode %>%
+  mutate(Season_Ep = first(simplify(str_split(`Series &Episode`,'\\.'))))
+  
+```
+

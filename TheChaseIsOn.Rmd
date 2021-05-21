@@ -13,10 +13,17 @@ episodes <- getEpisodeData()
 # save data
 save(list = c("players", "episodes"), file = "ChaseData.Rdata")
 ```
-
+Load data from previously scraped data
 ```{r load data}
 load(file = "ChaseData.Rdata")
 ```
+Fix one error
+```{r}
+# Choosen offer was incorrectly listed as 50000, changed this to 5000 
+players$ChosenOffer[2073]=5000
+```
+
+
 How often are low, mid, and high offers taken
 ```{r}
 offers <- players %>%
@@ -25,12 +32,28 @@ offers <- players %>%
     ChosenOffer == LowerOffer ~ "Lower",
     ChosenOffer == CashBuilder ~ "Middle",
     ChosenOffer == HigherOffer ~ "Higher"
-  )) 
-offers_sum <- offers %>%
-  group_by(OfferTaken, HigherOffer) %>%
+  )) %>%
+  group_by(OfferTaken) %>% 
   summarise(
     number_taken = n()
   ) %>% 
   mutate(percent = prop.table(number_taken))
+```
+
+Graph of average high offer and lower offer by cashbuilder
+```{r}
+low_high_by_CashBuilder <- players %>%
+  group_by(CashBuilder) %>% 
+  summarise(
+    avg_low = mean(LowerOffer,na.rm = TRUE),
+    avg_high = mean(HigherOffer),
+    med_low = median(LowerOffer,na.rm = TRUE),
+    med_high = median(HigherOffer)
+  )
+
+ggplot()+
+  geom_line(data = low_high_by_CashBuilder, aes(x= CashBuilder, y = avg_low))+
+  geom_line(data = low_high_by_CashBuilder, aes(x= CashBuilder, y = avg_high))+
+  geom_line(data = low_high_by_CashBuilder, aes(x= CashBuilder, y = CashBuilder))
 ```
 

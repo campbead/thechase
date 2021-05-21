@@ -1,4 +1,3 @@
-
 ---
 title: "The Chase"
 author: "Adam J Campbell"
@@ -6,9 +5,32 @@ date: "04/09/2020"
 output: html_document
 ---
 
-```{r load data, message=FALSE, warning=FALSE}
+```{r scrape data, message=FALSE, warning=FALSE}
 source("ETL.R")
 players <- getPlayerData()
 episodes <- getEpisodeData()
+
+# save data
+save(list = c("players", "episodes"), file = "ChaseData.Rdata")
+```
+
+```{r load data}
+load(file = "ChaseData.Rdata")
+```
+How often are low, mid, and high offers taken
+```{r}
+offers <- players %>%
+  select(c(CashBuilder,LowerOffer,HigherOffer,ChosenOffer)) %>% 
+  mutate(OfferTaken = case_when(
+    ChosenOffer == LowerOffer ~ "Lower",
+    ChosenOffer == CashBuilder ~ "Middle",
+    ChosenOffer == HigherOffer ~ "Higher"
+  )) 
+offers_sum <- offers %>%
+  group_by(OfferTaken, HigherOffer) %>%
+  summarise(
+    number_taken = n()
+  ) %>% 
+  mutate(percent = prop.table(number_taken))
 ```
 

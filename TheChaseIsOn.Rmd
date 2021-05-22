@@ -42,6 +42,13 @@ offers <- players %>%
 
 Graph of average high offer and lower offer by cashbuilder
 ```{r}
+plot_data <- players %>% 
+    mutate(OfferTaken = case_when(
+    ChosenOffer == LowerOffer ~ "Lower",
+    ChosenOffer == CashBuilder ~ "Middle",
+    ChosenOffer == HigherOffer ~ "Higher"
+  ))
+
 low_high_by_CashBuilder <- players %>%
   group_by(CashBuilder) %>% 
   summarise(
@@ -52,8 +59,42 @@ low_high_by_CashBuilder <- players %>%
   )
 
 ggplot()+
-  geom_line(data = low_high_by_CashBuilder, aes(x= CashBuilder, y = avg_low))+
-  geom_line(data = low_high_by_CashBuilder, aes(x= CashBuilder, y = avg_high))+
+  geom_point(data =players, aes(x = CashBuilder, y = LowerOffer), color = "red")+
+  geom_point(data =players, aes(x = CashBuilder, y = HigherOffer), color = "purple")+
+  geom_line(data = low_high_by_CashBuilder, aes(x= CashBuilder, y = avg_low), color = "red")+
+  geom_line(data = low_high_by_CashBuilder, aes(x= CashBuilder, y = avg_high), color = "purple")+
   geom_line(data = low_high_by_CashBuilder, aes(x= CashBuilder, y = CashBuilder))
 ```
+
+Likelihood of taking high offer based on high offer
+```{r}
+library(scales)
+plot_data <- players %>% 
+    mutate(OfferTaken = case_when(
+    ChosenOffer == LowerOffer ~ "Lower",
+    ChosenOffer == CashBuilder ~ "Middle",
+    ChosenOffer == HigherOffer ~ "Higher"
+  )) %>% 
+  mutate(cuts = cut(HigherOffer, c(
+    0, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000, Inf))) %>% 
+  group_by(cuts, OfferTaken) %>% 
+  summarise(count = n())
+
+plot_data$OfferTaken <- factor(plot_data$OfferTaken, levels = c("Higher", "Middle", "Lower"))
+
+ggplot(plot_data, aes(fill=OfferTaken, y=count, x=cuts)) + 
+  geom_bar(position="fill", stat="identity")+
+  scale_fill_manual(values=c("#207561", "#589167", "#a0cc78"  ))+
+  scale_x_discrete(breaks=c("(0,1e+04]","(1e+04,2e+04]","(2e+04,3e+04]","(3e+04,4e+04]", "(4e+04,5e+04]",
+                            "(5e+04,6e+04]", "(6e+04,7e+04]", "(7e+04,8e+04]", "(8e+04,9e+04]",
+                            "(9e+04,1e+05]", "(1e+05,Inf]"),
+                   labels=c("≤10k", "10-20k", "20-30k","30-40k","40-50k","50-60k","60-70k","70-80k",
+                            "80-90k","90-100k",">100k"))+
+  xlab("Higher Offer Value (£)") +
+  labs(fill = "Offer Taken")+
+  scale_y_continuous(name = "Percent", labels = percent)+
+  theme_minimal()
+```
+
+
 

@@ -79,6 +79,10 @@ getPlayerData <- function(){
            ChaserWinAmount = Chaser_Win_Amount,
            SpecialRound = Special_round,
            HTH_Result = HTHResult)
+
+  # clean a data error
+  player_data$ChosenOffer[2073]=5000
+
   return(player_data)
 }
 

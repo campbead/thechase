@@ -104,8 +104,8 @@ ggplot(plot_data, aes(fill=OfferTaken, y=count, x=cuts)) +
   scale_x_discrete(breaks = high_offer_breaks,
                    labels= high_offer_labels)+
   xlab("Higher Offer Value (£)") +
-  labs(fill = "Offer Taken")+
-  ggtitle("How enticing is the higher offer?", subtitle = "How the amount of the higher offer affects the offer taken") +
+  labs(fill = "OFFER TAKEN")+
+  ggtitle("How enticing is the higher offer?") +
   
   scale_y_continuous(name = "Percentage of time offer is taken", labels = percent, expand = c(-1,1) )+
   theme_campbead()

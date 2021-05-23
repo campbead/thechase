@@ -13,19 +13,12 @@ episodes <- getEpisodeData()
 # save data
 save(list = c("players", "episodes"), file = "ChaseData.Rdata")
 ```
+
 Load data from previously scraped data
 ```{r load data}
-library(rvest)
 library(tidyverse)
-library(stringi)
 load(file = "ChaseData.Rdata")
 ```
-Fix one error
-```{r}
-# Choosen offer was incorrectly listed as 50000, changed this to 5000 
-players$ChosenOffer[2073]=5000
-```
-
 
 How often are low, mid, and high offers taken
 ```{r}

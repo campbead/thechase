@@ -2,19 +2,6 @@ theme_campbead <- function(){
   font_main <- "Karla"
   font_numbers <- "Fira Mono"
 
-#   style = list(fontFamily = "Fira Mono, Consolas,                                                         Monaco, monospace",
-#                fontSize = "13.5px",
-#                whiteSpace = "pre"),
-#   ),
-#
-# columns = list(
-#   STATE = colDef(
-#     name = "REGION",
-#     align = "left",
-#     width = 120,
-#     style = list(fontFamily = "Karla, Helvetica Neue, Helvetica, Arial, sans-serif",
-#                  fontSize = "13.5px",
-
   theme_minimal() %+replace%
     theme(
 
@@ -23,54 +10,86 @@ theme_campbead <- function(){
       panel.grid.minor = element_blank(),    #strip minor gridlines
       axis.ticks = element_blank(),          #strip axis ticks
 
+      plot.background = element_rect(
+        fill = "ghostwhite"
+      ),
       #since theme_minimal() already strips axis lines,
       #we don't need to do that again
 
       #text elements
       plot.title = element_text(             #title
-        family = font_main,            #set font family
-        size = 20,                #set font size
-        face = 'bold',
+        family = font_main,                  #set font family
+        size = 20,                           #set font size
+        face = 'bold',                       #bold typeface
         margin=margin(
-          t = 2, r = 0, b = 8, l = 0, unit = "pt"
-          )
-        ),            #bold typeface
-        #hjust = 1,                #left align
-        #vjust = 1),               #raise slightly
+          t = 4, r = 0, b = 4, l = 0, unit = "pt"
+        )
+      ),
 
       plot.subtitle = element_text(          #subtitle
-        family = font_main,            #font family
-        size = 14,
+        family = font_main,                  #font family
+        size = 14,                           #font size
         margin=margin(
-          t = 2, r = 0, b = 8, l = 0, unit = "pt"
+          t = 4, r = 0, b = 4, l = 0, unit = "pt"
         )
-      ),               #font size
+      ),
 
       plot.caption = element_text(           #caption
-        family = font_main,            #font family
-        size = 9,                 #font size
-        hjust = 1),               #right align
+        family = font_main,                  #font family
+        size = 9,                            #font size
+        hjust = 1                            #right align
+        ),
 
       legend.title = element_text(
         family = font_main,
-        size = 10),
+        size = 12,
+        face = 'bold'
+        ),
 
-      legend.text  = element_text(
+      legend.text = element_text(
         family = font_main,
-        size = 9),
+        size = 9
+        ),
+
+      legend.key.size = unit(0.5, "cm"),
+
+      legend.background = element_rect(fill = "#dfdfff",size = 0.5, color = "#acacff"),
 
       axis.title = element_text(             #axis titles
         family = font_main,            #font family
-        size = 10),               #font size
+        face = 'bold',
+        size = 12               #font size
+      ),
 
       axis.text = element_text(              #axis text
         family = font_numbers,            #axis famuly
-        size = 9),                #font size
+        size = 8                        #font size
+        ),
 
       axis.text.x = element_text(            #margin for axis text
-        margin=margin(t = 4, r = 0, b = 4, l = 0, unit = "pt"))
+        margin=margin(t = 4, r = 0, b = 4, l = 0, unit = "pt"),
+        angle = 30
+        ),
 
-      #since the legend often requires manual tweaking
-      #based on plot content, don't define it here
+      legend.position = "top",
+
+      legend.box = "horizontal"
     )
-  }
+
+}
+
+theme_campbead_dark <- function(){
+  theme_campbead() %+replace%
+    theme(
+      plot.background = element_rect(
+        fill = "black"
+        ),
+      #panel.background = element_rect(
+      #  color = "black",
+      #  fill = "black"
+      #  ),
+      plot.title = element_text(
+        color = "white"
+      )
+    )
+}

@@ -6,9 +6,9 @@ theme_campbead <- function(){
     theme(
 
       #grid elements
-      panel.grid.major = element_blank(),    #strip major gridlines
-      panel.grid.minor = element_blank(),    #strip minor gridlines
-      axis.ticks = element_blank(),          #strip axis ticks
+      #panel.grid.major = element_blank(),    #strip major gridlines
+      #panel.grid.minor = element_blank(),    #strip minor gridlines
+      #axis.ticks = element_blank(),          #strip axis ticks
 
       plot.background = element_rect(
         fill = "ghostwhite"

@@ -103,6 +103,43 @@ ggplot(plot_data, aes(fill=OfferTaken, y=count, x=cuts)) +
   scale_y_continuous(name = "Percentage of time offer is taken", labels = percent, expand = c(-1,1) )+
   theme_campbead()
 ```
+Likelihood of winning HTH based on chosen value
+```{r}
+source("custom_gg.R")
 
+my_colors = c("#207561", "#589167", "#a0cc78")
+
+temp_data <- players %>% 
+  mutate(OfferTaken = case_when(
+    ChosenOffer == LowerOffer ~ "Lower",
+    ChosenOffer == CashBuilder ~ "Middle",
+    ChosenOffer == HigherOffer ~ "Higher"
+  )) %>% 
+  mutate(win = ifelse(HTH_Result >0, TRUE, FALSE)) 
+
+total_data <- temp_data %>% 
+  group_by(ChosenOffer, OfferTaken) %>% 
+  summarise(total_count = n())
+
+ind_data <- temp_data %>% 
+  group_by(ChosenOffer, OfferTaken, win) %>% 
+  summarise(count = n())
+
+plot_data <- left_join(ind_data,total_data, by = c("ChosenOffer" = "ChosenOffer", "OfferTaken" = "OfferTaken" )) %>% 
+  filter (win == TRUE) %>% 
+  mutate(win_pct = count/total_count)
+
+plot_data$OfferTaken <- factor(plot_data$OfferTaken, levels = c("Higher", "Middle", "Lower"))
+
+ggplot(plot_data, aes(color=OfferTaken, y=win_pct, x=ChosenOffer, size = total_count)) +
+  geom_point() +
+  scale_color_manual(values = my_colors) +
+  #xlim(-5000,20000) +
+  #ylim(0,1)+
+  xlab("Chosen Offer (£)") +
+  scale_y_continuous(name = "Win Percentage", labels = percent,  expand = expansion(mult = c(0.25,0.05))) +
+  theme_campbead()
+
+```
 
 

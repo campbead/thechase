@@ -15,7 +15,7 @@ save(list = c("players", "episodes"), file = "ChaseData.Rdata")
 ```
 
 Load data from previously scraped data
-```{r load data}
+```{r load data, message=FALSE, warning=FALSE}
 library(tidyverse)
 load(file = "ChaseData.Rdata")
 ```
@@ -105,6 +105,7 @@ ggplot(plot_data, aes(fill=OfferTaken, y=count, x=cuts)) +
 ```
 Likelihood of winning HTH based on chosen value
 ```{r}
+library(scales)
 source("custom_gg.R")
 
 my_colors = c("#207561", "#589167", "#a0cc78")
@@ -134,7 +135,7 @@ plot_data$OfferTaken <- factor(plot_data$OfferTaken, levels = c("Higher", "Middl
 ggplot(plot_data, aes(color=OfferTaken, y=win_pct, x=ChosenOffer, size = total_count)) +
   geom_point() +
   scale_color_manual(values = my_colors) +
-  #xlim(-5000,20000) +
+  xlim(-5000,15000) +
   #ylim(0,1)+
   xlab("Chosen Offer (£)") +
   scale_y_continuous(name = "Win Percentage", labels = percent,  expand = expansion(mult = c(0.25,0.05))) +

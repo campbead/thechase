@@ -1,6 +1,11 @@
 theme_campbead <- function(){
   font_main <- "Karla"
   font_numbers <- "Fira Mono"
+  grid_color <- "#916758"
+  grid_color_alt <- "#b3acc8"
+
+  grid_color_alt_minor <- "#d9d5e4"
+
 
   theme_minimal() %+replace%
     theme(
@@ -9,6 +14,9 @@ theme_campbead <- function(){
       #panel.grid.major = element_blank(),    #strip major gridlines
       #panel.grid.minor = element_blank(),    #strip minor gridlines
       #axis.ticks = element_blank(),          #strip axis ticks
+
+      panel.grid.major = element_line(color = grid_color_alt),
+      panel.grid.minor = element_line(color = grid_color_alt_minor),
 
       plot.background = element_rect(
         fill = "ghostwhite"

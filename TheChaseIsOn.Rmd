@@ -5,8 +5,18 @@ date: "04/09/2020"
 output: html_document
 ---
 
-```{r scrape data, message=FALSE, warning=FALSE}
+load the packages we need.
+```{r load packages, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(extrafont)
+library(scales)
+
 source("ETL.R")
+source("custom_gg.R")
+```
+
+Rescape data if we need to.
+```{r scrape data, message=FALSE, warning=FALSE}
 players <- getPlayerData()
 episodes <- getEpisodeData()
 
@@ -16,12 +26,11 @@ save(list = c("players", "episodes"), file = "ChaseData.Rdata")
 
 Load data from previously scraped data
 ```{r load data, message=FALSE, warning=FALSE}
-library(tidyverse)
 load(file = "ChaseData.Rdata")
 ```
 
 How often are low, mid, and high offers taken
-```{r}
+```{r message=FALSE, warning=FALSE}
 offers <- players %>%
   select(c(CashBuilder,LowerOffer,HigherOffer,ChosenOffer)) %>% 
   mutate(OfferTaken = case_when(
@@ -33,11 +42,11 @@ offers <- players %>%
   summarise(
     number_taken = n()
   ) %>% 
-  mutate(percent = prop.table(number_taken))
+  mutate(percent = prop.table(number_taken)) 
 ```
 
 Graph of average high offer and lower offer by cashbuilder
-```{r}
+```{r message=FALSE, warning=FALSE}
 plot_data <- players %>% 
     mutate(OfferTaken = case_when(
     ChosenOffer == LowerOffer ~ "Lower",
@@ -62,8 +71,8 @@ ggplot()+
   geom_line(data = low_high_by_CashBuilder, aes(x= CashBuilder, y = CashBuilder))
 ```
 
-Likelihood of taking high offer based on high offer
-```{r}
+Likelihood of taking high offer based on high offer 
+```{r message=FALSE, warning=FALSE}
 library(scales)
 source("custom_gg.R")
 
@@ -103,11 +112,46 @@ ggplot(plot_data, aes(fill=OfferTaken, y=count, x=cuts)) +
   scale_y_continuous(name = "Percentage of time offer is taken", labels = percent, expand = c(-1,1) )+
   theme_campbead()
 ```
-Likelihood of winning HTH based on chosen value
-```{r}
-library(scales)
-source("custom_gg.R")
 
+Compute how winning percentage for each offer taken.
+```{r message=FALSE, warning=FALSE}
+Total_offers <- players %>% 
+  mutate(OfferTaken = case_when(
+    ChosenOffer == LowerOffer ~ "Lower",
+    ChosenOffer == CashBuilder ~ "Middle",
+    ChosenOffer == HigherOffer ~ "Higher"
+  )) %>% 
+  mutate(win = ifelse(HTH_Result >0, TRUE, FALSE)) %>% 
+  group_by(OfferTaken, win) %>% 
+  summarise(
+    total_count = n()
+  ) %>% 
+  ungroup() %>% 
+  group_by(OfferTaken) %>% 
+  summarise(
+    total_total = sum(total_count)
+  )
+
+Total_offers_wins <- players %>% 
+  mutate(OfferTaken = case_when(
+    ChosenOffer == LowerOffer ~ "Lower",
+    ChosenOffer == CashBuilder ~ "Middle",
+    ChosenOffer == HigherOffer ~ "Higher"
+  )) %>% 
+  mutate(win = ifelse(HTH_Result >0, TRUE, FALSE)) %>% 
+  group_by(OfferTaken, win) %>% 
+  summarise(
+    total_count = n()
+  ) 
+
+Total_offers_wins <- left_join(Total_offers_wins, Total_offers, by = "OfferTaken") %>% 
+  filter(win == TRUE) %>% 
+  mutate(pct = total_count/total_total)
+```
+
+
+Likelihood of winning HTH based on chosen value for zoomed in region.
+```{r fig.height=5.5, fig.width=10, message=FALSE, warning=FALSE}
 my_colors = c("#207561", "#589167", "#a0cc78")
 
 temp_data <- players %>% 
@@ -119,10 +163,12 @@ temp_data <- players %>%
   mutate(win = ifelse(HTH_Result >0, TRUE, FALSE)) 
 
 total_data <- temp_data %>% 
+  mutate(ChosenOffer = round(ChosenOffer,-3)) %>% 
   group_by(ChosenOffer, OfferTaken) %>% 
   summarise(total_count = n())
 
 ind_data <- temp_data %>% 
+  mutate(ChosenOffer = round(ChosenOffer,-3)) %>% 
   group_by(ChosenOffer, OfferTaken, win) %>% 
   summarise(count = n())
 
@@ -131,16 +177,153 @@ plot_data <- left_join(ind_data,total_data, by = c("ChosenOffer" = "ChosenOffer"
   mutate(win_pct = count/total_count)
 
 plot_data$OfferTaken <- factor(plot_data$OfferTaken, levels = c("Higher", "Middle", "Lower"))
+Total_offers_wins$OfferTaken <- factor(Total_offers_wins$OfferTaken, levels = c("Higher", "Middle", "Lower"))
+plot_data <- plot_data %>% 
+  filter(OfferTaken != "Higher")
 
-ggplot(plot_data, aes(color=OfferTaken, y=win_pct, x=ChosenOffer, size = total_count)) +
-  geom_point() +
-  scale_color_manual(values = my_colors) +
-  xlim(-5000,15000) +
+
+plot <- ggplot() +
+  geom_hline(data = Total_offers_wins, aes(color=OfferTaken, yintercept = pct), size = 0.5, show.legend = FALSE, linetype = "dotted") +
+  geom_point(data = plot_data, aes(color=OfferTaken, y=win_pct, x=ChosenOffer, size = total_count)) +
+  geom_text(
+    data = Total_offers_wins, 
+    aes(x=12000, y= pct, label = paste0(round(pct * 100,0), "%")),
+    family = "Fira Mono",
+    size = 3,
+    position = position_nudge(y = 0.02)
+    ) +
+  scale_color_manual(values = my_colors) + 
+
   #ylim(0,1)+
-  xlab("Chosen Offer (£)") +
-  scale_y_continuous(name = "Win Percentage", labels = percent,  expand = expansion(mult = c(0.25,0.05))) +
+  xlab("Chosen Offer (£) rounded to nearest thousand") +
+  scale_x_continuous(
+    breaks = seq(-6000, 12000,2000),
+    limits = c(-6000,12000),
+    labels = comma(seq(-6000, 12000,2000))
+  ) + 
+  scale_y_continuous(
+    name = "Win Percentage", 
+    labels = percent,  
+    expand = expansion(mult = c(0.5,0.05)),
+    breaks = seq(0,1, 0.20)
+    ) +
+  labs(color = "OFFER TAKEN", size = "TOTAL ATTEMPTS")+
+  guides(colour = guide_legend(override.aes = list(size=7))) +
   theme_campbead()
+
+plot
+
+ggsave("WinningPCT_Zoomed.png", plot, width = 10, height = 5.5, dpi = 300)
 
 ```
 
+
+Likelihood of winning HTH based on chosen value for high offers.
+```{r fig.height=5.5, fig.width=10, message=FALSE, warning=FALSE}
+my_colors = c("#207561", "#589167", "#a0cc78")
+
+temp_data <- players %>% 
+  mutate(OfferTaken = case_when(
+    ChosenOffer == LowerOffer ~ "Lower",
+    ChosenOffer == CashBuilder ~ "Middle",
+    ChosenOffer == HigherOffer ~ "Higher"
+  )) %>% 
+  mutate(win = ifelse(HTH_Result >0, TRUE, FALSE)) 
+
+total_data <- temp_data %>% 
+  mutate(ChosenOffer = round(ChosenOffer/5000) * 5000) %>% 
+  group_by(ChosenOffer, OfferTaken) %>% 
+  summarise(total_count = n())
+
+ind_data <- temp_data %>% 
+  mutate(ChosenOffer = round(ChosenOffer/5000) * 5000) %>% 
+  group_by(ChosenOffer, OfferTaken, win) %>% 
+  summarise(count = n())
+
+plot_data <- left_join(ind_data,total_data, by = c("ChosenOffer" = "ChosenOffer", "OfferTaken" = "OfferTaken" )) %>% 
+  filter (win == TRUE) %>% 
+  mutate(win_pct = count/total_count)
+
+plot_data$OfferTaken <- factor(plot_data$OfferTaken, levels = c("Higher", "Middle", "Lower"))
+ plot_data <- plot_data %>% 
+   filter(OfferTaken == "Higher")
+
+
+plot <- ggplot(plot_data, aes(color=OfferTaken, y=win_pct, x=ChosenOffer, size = total_count)) +
+  geom_point() +
+  scale_color_manual(values = my_colors) +
+  
+  #ylim(0,1)+
+  xlab("Chosen Offer (£)") +
+  scale_x_continuous(
+    breaks = seq(15000, 100000,5000),
+    limits = c(15000, 100000),
+    labels = comma(seq(15000, 100000,5000))
+  ) + 
+  scale_y_continuous(
+    name = "Win Percentage", 
+    labels = percent,  
+    expand = expansion(mult = c(0.5,0.05)),
+    breaks = seq(0,1, 0.20)
+    ) +
+  labs(color = "OFFER TAKEN", size = "TOTAL ATTEMPTS")+
+  guides(colour = guide_legend(override.aes = list(size=7))) +
+  theme_campbead()
+
+plot
+
+ggsave("WinningPCT.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)
+
+```
+
+
+What is the distribution of correct answers?
+```{r}
+answer_distribution <- players %>%
+  mutate(CorrectAnswers = CashBuilder /1000)
+
+answer_stats <- answer_distribution %>% 
+  summarise(
+    players = n(), 
+    total_correct = sum(CorrectAnswers),
+    mean = mean(CorrectAnswers), 
+    median = median(CorrectAnswers), 
+    sd = sd(CorrectAnswers)
+  )
+
+ggplot(data = answer_distribution) +
+  geom_bar(aes(x=CorrectAnswers), stat) +
+  theme_campbead()
+```
+
+```{r}
+temp_data <- answer_distribution %>% 
+  mutate(OfferTaken = case_when(
+    ChosenOffer == LowerOffer ~ "Lower",
+    ChosenOffer == CashBuilder ~ "Middle",
+    ChosenOffer == HigherOffer ~ "Higher"
+  )) %>% 
+  mutate(win = ifelse(HTH_Result >0, TRUE, FALSE)) 
+
+total_data <- temp_data %>% 
+  group_by(CorrectAnswers, OfferTaken) %>% 
+  summarise(total_count = n())
+
+ind_data <- temp_data %>% 
+  group_by(CorrectAnswers, OfferTaken, win) %>% 
+  summarise(count = n())
+
+plot_data <- left_join(ind_data,total_data, by = c("CorrectAnswers" = "CorrectAnswers", "OfferTaken" = "OfferTaken" )) %>% 
+  filter (win == TRUE) %>% 
+  mutate(win_pct = count/total_count)
+
+
+ggplot(data = plot_data, aes(x = CorrectAnswers, y=win_pct, color = OfferTaken, size = total_count)) +
+  geom_point() +
+  geom_smooth(
+    method = "lm", 
+    mapping = aes(color = OfferTaken, weight = total_count), 
+    show.legend = FALSE) +
+  theme_campbead()
+```
 

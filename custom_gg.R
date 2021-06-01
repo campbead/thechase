@@ -59,9 +59,9 @@ theme_campbead <- function(){
         size = 9
         ),
 
-      legend.key.size = unit(0.5, "cm"),
+      legend.key.size = unit(.7, "cm"),
 
-      legend.background = element_rect(fill = "#dfdfff",size = 0.5, color = "#acacff"),
+      #legend.background = element_rect(fill = "#dfdfff",size = 0.5, color = "#acacff"),
 
       axis.title = element_text(             #axis titles
         family = font_main,            #font family

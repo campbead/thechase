@@ -213,7 +213,7 @@ plot <- ggplot() +
 
 plot
 
-ggsave("WinningPCT_Zoomed.png", plot, width = 10, height = 5.5, dpi = 300)
+#ggsave("WinningPCT_Zoomed.png", plot, width = 10, height = 5.5, dpi = 300)
 
 ```
 
@@ -272,7 +272,7 @@ plot <- ggplot(plot_data, aes(color=OfferTaken, y=win_pct, x=ChosenOffer, size =
 
 plot
 
-ggsave("WinningPCT.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)
+#ggsave("WinningPCT.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)
 
 ```
 
@@ -332,10 +332,51 @@ Build model and calculate expected value for each offer
 
 
 ```{r}
-predicted_winning_pct <- plot_data %>% 
-  group_by(OfferTaken, ) %>% 
-  summarise(
-    value = lm(win_pct ~ CorrectAnswers)
-  )
+# predicted_winning_pct <- plot_data %>% 
+#   group_by(OfferTaken, ) %>% 
+#   summarise(
+#     value = lm(win_pct ~ CorrectAnswers)
+#   )
+
+
+predicted_winning_pct <- plot_data  %>%
+  group_by(OfferTaken)%>%
+  group_map(~ broom::tidy(lm(win_pct ~ CorrectAnswers, data = .x, weights = total_count)))
+
+# I want to make a datatable of the structure
+# Correct Answers, Offer, predicted win %
+
+# set the sequences
+Correct_Answers_seq = seq(from= 0, to= 12, by =1)
+offers_seq = c("High", "Low", "Middle")
+
+# initialise lists
+Correct_Answers_list = rep(NA, length(Correct_Answers_seq) * length(offers_seq))
+offers_list = rep(NA, length(Correct_Answers_seq) * length(offers_seq))
+winning_model_list = rep(NA, length(Correct_Answers_seq) * length(offers_seq))
+
+# loop over fill in values
+for (i in 1:length(Correct_Answers_seq)){
+  for (j in 1:length(offers_seq)){
+    # set indexes
+    Correct_Answers_list[(i-1)*length(offers_seq) + j] = Correct_Answers_seq[i]
+    offers_list[(i-1)*length(offers_seq) + j] = offers_seq[j]
+    
+    temp_pct = Correct_Answers_seq[i] * predicted_winning_pct[[j]]$estimate[2] + predicted_winning_pct[[j]]$estimate[1]
+    
+    winning_model_list[(i-1)*length(offers_seq) + j] = temp_pct
+    
+  }
+}
+
+#combine lists into single data frame and rename columns
+winning_model <- data.frame(Correct_Answers_list, offers_list, winning_model_list) %>% 
+  #new = #old
+  rename(
+    CorrectAnswers = Correct_Answers_list, 
+    Offer = offers_list,
+    WinChance = winning_model_list
+    )
+
 ```
 

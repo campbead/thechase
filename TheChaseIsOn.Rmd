@@ -328,4 +328,14 @@ ggplot(data = plot_data, aes(x = CorrectAnswers, y=win_pct, color = OfferTaken, 
 ```
 
 
-Build model
+Build model and calculate expected value for each offer
+
+
+```{r}
+predicted_winning_pct <- plot_data %>% 
+  group_by(OfferTaken, ) %>% 
+  summarise(
+    value = lm(win_pct ~ CorrectAnswers)
+  )
+```
+

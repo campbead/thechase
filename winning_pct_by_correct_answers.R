@@ -34,10 +34,12 @@ plot <- ggplot() +
              pch=21) +
   geom_text(
     data = Total_offers_wins,
-    aes(x=12000, y= pct, label = paste0(round(pct * 100,0), "%")),
+    aes(x=10000,
+        y= pct,
+        label = paste0("average win-rate for ", OfferTaken, " offer ", round(pct * 100,0), "%")),
     family = "Fira Mono",
     size = 3,
-    position = position_nudge(y = 0.02)
+    position = position_nudge(y = -0.025)
   ) +
   scale_fill_manual(values = my_colors[2:3]) +
   scale_color_manual(values = my_colors) +
@@ -54,7 +56,7 @@ plot <- ggplot() +
     expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)
   ) +
-  labs(color = "OFFER TAKEN", size = "TOTAL ATTEMPTS")+
+  labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS")+
   guides(colour = guide_legend(override.aes = list(size=7))) +
   theme_campbead()
 

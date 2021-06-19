@@ -376,7 +376,19 @@ winning_model <- data.frame(Correct_Answers_list, offers_list, winning_model_lis
     CorrectAnswers = Correct_Answers_list, 
     Offer = offers_list,
     WinChance = winning_model_list
-    )
+  )
 
+```
+
+
+Take the player dataframe, make longer
+```{r}
+player_expected <- players %>% 
+  mutate(OfferTaken = case_when(
+    ChosenOffer == LowerOffer ~ "Lower",
+    ChosenOffer == CashBuilder ~ "Middle",
+    ChosenOffer == HigherOffer ~ "Higher"
+  ))#w %>%
+  #pivot_longer(Name, names_to = ChosenOffer)
 ```
 

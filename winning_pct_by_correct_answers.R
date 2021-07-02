@@ -34,9 +34,9 @@ plot <- ggplot() +
              pch=21) +
   geom_text(
     data = Total_offers_wins,
-    aes(x=10000,
+    aes(x=10400,
         y= pct,
-        label = paste0("average win-rate for ", OfferTaken, " offer ", round(pct * 100,0), "%")),
+        label = paste0("average for ", OfferTaken, " offer: ", round(pct * 100,0), "%")),
     family = "Fira Mono",
     size = 3,
     position = position_nudge(y = -0.025)
@@ -44,7 +44,7 @@ plot <- ggplot() +
   scale_fill_manual(values = my_colors[2:3]) +
   scale_color_manual(values = my_colors) +
 
-  xlab("Chosen Offer (£) rounded to nearest thousand") +
+  xlab("Chosen offer (£) rounded to nearest thousand") +
   scale_x_continuous(
     breaks = seq(-6000, 12000,2000),
     limits = c(-6000,12000),

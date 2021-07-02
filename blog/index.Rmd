@@ -1,0 +1,15 @@
+---
+title: The Chase
+author: Adam J Campbell
+date: 2021-07-03
+output: html_document
+draft: True
+summary: A deep dive into trends and analysis of the TV's The Chase
+tags: [The Chase, statistics] 
+---
+
+## Data
+Data for The Chase has been meticulous compiled on [One Question Shootout!](http://onequestionshootout.xyz/), ([Twitter](https://twitter.com/OneQnShootout)).  
+
+## Basics
+![Winning Percent](../figures/correct_answer_distribution.png)

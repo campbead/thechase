@@ -67,16 +67,32 @@ plot_data_unzoom <- calc_win_pct_by_chosen_offer_taken_offer_binned(players, 500
 plot_data <- plot_data_unzoom %>%
   filter(OfferTaken == "Higher")
 
-plot <- ggplot(plot_data_unzoom,
-               aes(color=OfferTaken,
-                   y=win_pct,
-                   x=ChosenOffer,
-                   size = total_time_selected)) +
-  geom_point() +
+plot <- ggplot() +
+  geom_hline(data = Total_offers_wins,
+             aes(color=OfferTaken, yintercept = pct),
+             size = 1,
+             show.legend = FALSE,
+             linetype = "dotted") +
+  geom_text(
+    data = Total_offers_wins,
+    aes(x=90000,
+        y= pct,
+        label = paste0("average for ", OfferTaken, " offer: ", round(pct * 100,0), "%")),
+    family = "Fira Mono",
+    size = 3,
+    position = position_nudge(y = -0.025)
+  ) +
+  geom_point(data = plot_data,
+             aes(fill=OfferTaken,
+                 y=win_pct,
+                 x=ChosenOffer,
+                 size = total_time_selected),
+             colour="black",
+             pch=21) +
+  scale_fill_manual(values = my_colors) +
   scale_color_manual(values = my_colors) +
-
   #ylim(0,1)+
-  xlab("Chosen Offer (£)") +
+  xlab("Chosen offer (£) rounnded to nearest 5000") +
   scale_x_continuous(
     breaks = seq(15000, 100000,5000),
     limits = c(15000, 100000),
@@ -88,7 +104,7 @@ plot <- ggplot(plot_data_unzoom,
     expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)
   ) +
-  labs(color = "OFFER TAKEN", size = "TOTAL ATTEMPTS")+
+  labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS")+
   guides(colour = guide_legend(override.aes = list(size=7))) +
   theme_campbead()
 

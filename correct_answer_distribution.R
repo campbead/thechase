@@ -19,4 +19,7 @@ plot <- ggplot(data = answer_distribution) +
   geom_bar(aes(x=CorrectAnswers), stat) +
   theme_campbead()
 
-ggsave(plot, filename = "figures/correct_answer_distribution.png")
+ggsave(plot,
+       width = 5,
+       height = 3,
+       filename = "figures/correct_answer_distribution.png")

@@ -16,7 +16,9 @@ answer_distribution <- players %>%
 
 # plot
 plot <- ggplot(data = answer_distribution) +
-  geom_bar(aes(x = CorrectAnswers), stat) +
+  geom_bar(aes(x = CorrectAnswers), stat, fill = "#589167") +
+  xlab("Number of correct answers") +
+  ylab("Total count") +
   theme_campbead()
 
 ggsave(plot,

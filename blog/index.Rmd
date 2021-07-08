@@ -8,8 +8,9 @@ summary: A deep dive into trends and analysis of the TV's The Chase
 tags: [The Chase, statistics] 
 ---
 
+
 ## Data
-Data for The Chase has been meticulous compiled on [One Question Shootout!](http://onequestionshootout.xyz/), ([Twitter](https://twitter.com/OneQnShootout)).  
+Data for The Chase has been meticulous compiled on [One Question Shootout!](http://onequestionshootout.xyz/), ([Twitter](https://twitter.com/OneQnShootout)).  This website can catalogued a massive amount of data for The Chase's 14 (current) seasons.  There is data on each game: if the player or the chaser won, 
 
 ## Basics
 ![Winning Percent](../figures/correct_answer_distribution.png)

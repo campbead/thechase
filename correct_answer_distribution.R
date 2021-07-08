@@ -12,11 +12,11 @@ load(file = "data/ChaseData.Rdata")
 
 # create a correct answers column
 answer_distribution <- players %>%
-  mutate(CorrectAnswers = CashBuilder /1000)
+  mutate(CorrectAnswers = CashBuilder / 1000)
 
 # plot
 plot <- ggplot(data = answer_distribution) +
-  geom_bar(aes(x=CorrectAnswers), stat) +
+  geom_bar(aes(x = CorrectAnswers), stat) +
   theme_campbead()
 
 ggsave(plot,

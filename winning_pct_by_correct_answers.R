@@ -21,21 +21,21 @@ plot_data <- plot_data %>%
 
 plot <- ggplot() +
   geom_hline(data = Total_offers_wins,
-             aes(color=OfferTaken, yintercept = pct),
+             aes(color = OfferTaken, yintercept = pct),
              size = 1,
              show.legend = FALSE,
              linetype = "dotted") +
   geom_point(data = plot_data,
-             aes(fill=OfferTaken,
-                 y=win_pct,
-                 x=ChosenOffer,
+             aes(fill = OfferTaken,
+                 y = win_pct,
+                 x = ChosenOffer,
                  size = total_time_selected),
-             colour="black",
-             pch=21) +
+             colour = "black",
+             pch = 21) +
   geom_text(
     data = Total_offers_wins,
-    aes(x=10400,
-        y= pct,
+    aes(x = 10400,
+        y = pct,
         label = paste0("average for ", OfferTaken, " offer: ", round(pct * 100,0), "%")),
     family = "Fira Mono",
     size = 3,
@@ -56,8 +56,8 @@ plot <- ggplot() +
     expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)
   ) +
-  labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS")+
-  guides(colour = guide_legend(override.aes = list(size=7))) +
+  labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS") +
+  guides(colour = guide_legend(override.aes = list(size = 7))) +
   theme_campbead()
 
 ggsave("figures/WinningPCT_Zoomed.png", plot, width = 10, height = 5.5, dpi = 300)
@@ -69,26 +69,26 @@ plot_data <- plot_data_unzoom %>%
 
 plot <- ggplot() +
   geom_hline(data = Total_offers_wins,
-             aes(color=OfferTaken, yintercept = pct),
+             aes(color = OfferTaken, yintercept = pct),
              size = 1,
              show.legend = FALSE,
              linetype = "dotted") +
   geom_text(
     data = Total_offers_wins,
-    aes(x=90000,
-        y= pct,
+    aes(x = 90000,
+        y = pct,
         label = paste0("average for ", OfferTaken, " offer: ", round(pct * 100,0), "%")),
     family = "Fira Mono",
     size = 3,
     position = position_nudge(y = -0.025)
   ) +
   geom_point(data = plot_data,
-             aes(fill=OfferTaken,
-                 y=win_pct,
-                 x=ChosenOffer,
+             aes(fill = OfferTaken,
+                 y = win_pct,
+                 x = ChosenOffer,
                  size = total_time_selected),
-             colour="black",
-             pch=21) +
+             colour = "black",
+             pch = 21) +
   scale_fill_manual(values = my_colors) +
   scale_color_manual(values = my_colors) +
   #ylim(0,1)+
@@ -104,8 +104,8 @@ plot <- ggplot() +
     expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)
   ) +
-  labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS")+
-  guides(colour = guide_legend(override.aes = list(size=7))) +
+  labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS") +
+  guides(colour = guide_legend(override.aes = list(size = 7))) +
   theme_campbead()
 
 ggsave("figures/WinningPCT.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)

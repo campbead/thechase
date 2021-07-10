@@ -8,12 +8,16 @@ summary: A deep dive into trends and analysis of the TV's The Chase
 tags: [The Chase, statistics] 
 ---
 
+## 
+
 
 ## Data
 Data for The Chase has been meticulous compiled on [One Question Shootout!](http://onequestionshootout.xyz/), ([Twitter](https://twitter.com/OneQnShootout)).  This website can cataloged a massive amount of data for The Chase's 14 (current) seasons.  There is data on each game: if the player or the chaser won, who the chaser was, total prize fund and much more.  For each player there is data on their performance in the cash builder, the head-to-head, the final chase.
 
-## Cash builder
-Every player competes in the cash builder where they answer as many questions as they can in 60 seconds. The median score the cash builder is 5.  
+## Median score for the cash builder is 5
+Every player competes in the cash builder where they answer as many questions as they can in 60 seconds. The median score for this phase is 5.
 ![Winning Percent](../figures/correct_answer_distribution.png)
+Each correct answer in this phase is worth £1,000 and the total sets the middle offer for the head-to-head phase.
+The distribution of correct answers is more-or-less bell shaped, with most players scoring between 4-6.
 
 ## Head to head

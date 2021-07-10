@@ -109,3 +109,29 @@ plot <- ggplot() +
   theme_campbead()
 
 ggsave("figures/WinningPCT.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)
+
+plot_data <- calc_win_pct_by_correct_answers_taken_offer(players)
+
+plot <- ggplot(
+  data = plot_data,
+  aes(x = CorrectAnswers, y = win_pct, color = OfferTaken, size = total_count)
+  ) +
+
+  geom_smooth(
+    method = "lm",
+    mapping = aes(color = OfferTaken, weight = total_count, fill = OfferTaken),
+    show.legend = FALSE
+    ) +
+
+  geom_point(
+    aes(fill = OfferTaken),
+    colour = "black",
+    pch = 21) +
+
+  scale_color_manual(values = my_colors) +
+  scale_fill_manual(values = my_colors) +
+
+  xlim(0,10) +
+  theme_campbead()
+
+ggsave("figures/WinningPCT_by_correct_and_offer.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)

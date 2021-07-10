@@ -57,7 +57,7 @@ plot <- ggplot() +
     breaks = seq(0,1, 0.20)
   ) +
   labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS") +
-  guides(colour = guide_legend(override.aes = list(size = 7))) +
+  guides(fill = guide_legend(override.aes = list(size = 7))) +
   theme_campbead()
 
 ggsave("figures/WinningPCT_Zoomed.png", plot, width = 10, height = 5.5, dpi = 300)
@@ -105,7 +105,7 @@ plot <- ggplot() +
     breaks = seq(0,1, 0.20)
   ) +
   labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS") +
-  guides(colour = guide_legend(override.aes = list(size = 7))) +
+  guides(fill = guide_legend(override.aes = list(size = 7))) +
   theme_campbead()
 
 ggsave("figures/WinningPCT.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)

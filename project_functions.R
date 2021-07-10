@@ -77,3 +77,28 @@ calc_win_pct_by_chosen_offer_taken_offer_binned <- function(data, bin_size){
     select(-win)
   return(plot_data)
 }
+
+
+calc_win_pct_by_correct_answers_taken_offer <- function(data){
+
+  temp_data <- data %>%
+    mutate(CorrectAnswers = CashBuilder /1000) %>%
+    add_chosen_offer() %>%
+    mutate(win = ifelse(HTH_Result > 0, TRUE, FALSE))
+
+  total_data <- temp_data %>%
+    group_by(CorrectAnswers, OfferTaken) %>%
+    summarise(total_count = n())
+
+  ind_data <- temp_data %>%
+    group_by(CorrectAnswers, OfferTaken, win) %>%
+    summarise(count = n())
+
+  plot_data <- left_join(ind_data,total_data, by = c("CorrectAnswers" = "CorrectAnswers", "OfferTaken" = "OfferTaken" )) %>%
+    filter(win == TRUE) %>%
+    mutate(win_pct = count/total_count) %>%
+    mutate(OfferTaken = factor(
+      OfferTaken,
+      levels = c("Higher", "Middle", "Lower")
+    ))
+}

@@ -8,7 +8,7 @@ source("project_functions.R")
 load(file = "data/ChaseData.Rdata")
 
 # set colors
-my_colors = c("#207561", "#589167", "#a0cc78")
+my_colors = c("#207561", "#60A16D", "#a0cc78")
 
 # get total offer wins table
 Total_offers_wins <- get_total_offer_wins(players)
@@ -112,6 +112,7 @@ ggsave("figures/WinningPCT.png", plot, width = 10, height = 5.5, units = "in",  
 
 plot_data <- calc_win_pct_by_correct_answers_taken_offer(players)
 
+
 plot <- ggplot(
   data = plot_data,
   aes(x = CorrectAnswers, y = win_pct, color = OfferTaken, size = total_count)
@@ -131,7 +132,21 @@ plot <- ggplot(
   scale_color_manual(values = my_colors) +
   scale_fill_manual(values = my_colors) +
 
-  xlim(0,10) +
+  labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS") +
+
+  scale_x_continuous(
+    name = "Number of correct answers in cash builder",
+    breaks = seq(0,5) * 2,
+    limits = c(0,10),
+    expand = expansion(mult = c(0.02,0.02) )
+    ) +
+  scale_y_continuous(
+    name = "Chance to win head-to-head",
+    labels = percent,
+    #expand = expansion(mult = c(0.5,0.05)),
+    breaks = seq(0,1, 0.20)
+  ) +
+
   theme_campbead()
 
 ggsave("figures/WinningPCT_by_correct_and_offer.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)

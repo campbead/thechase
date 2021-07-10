@@ -147,6 +147,8 @@ plot <- ggplot(
     breaks = seq(0,1, 0.20)
   ) +
 
+  guides(fill = guide_legend(override.aes = list(size = 7))) +
+
   theme_campbead()
 
 ggsave("figures/WinningPCT_by_correct_and_offer.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)

@@ -16,11 +16,12 @@ Total_offers_wins <- get_total_offer_wins(players)
 plot_data <- calc_win_pct_by_chosen_offer_taken_offer_binned(players, 1000)
 
 plot_data <- plot_data %>%
-  filter(OfferTaken != "Higher")
+  filter(OfferTaken == "Lower")
 
+## plot lower offer
 
 plot <- ggplot() +
-  geom_hline(data = Total_offers_wins,
+  geom_hline(data = Total_offers_wins %>% filter(OfferTaken == "Lower"),
              aes(color = OfferTaken, yintercept = pct),
              size = 1,
              show.legend = FALSE,
@@ -33,22 +34,22 @@ plot <- ggplot() +
              colour = "black",
              pch = 21) +
   geom_text(
-    data = Total_offers_wins,
-    aes(x = 10400,
+    data = Total_offers_wins %>% filter(OfferTaken == "Lower"),
+    aes(x = 8400,
         y = pct,
         label = paste0("average for ", OfferTaken, " offer: ", round(pct * 100,0), "%")),
     family = "Fira Mono",
     size = 3,
     position = position_nudge(y = -0.025)
   ) +
-  scale_fill_manual(values = my_colors[2:3]) +
-  scale_color_manual(values = my_colors) +
+  scale_fill_manual(values = my_colors[3]) +
+  scale_color_manual(values = my_colors[3]) +
 
   xlab("Chosen offer (£) rounded to nearest thousand") +
   scale_x_continuous(
-    breaks = seq(-6000, 12000,2000),
-    limits = c(-6000,12000),
-    labels = comma(seq(-6000, 12000,2000))
+    breaks = seq(-6000, 10000,2000),
+    limits = c(-6000,10000),
+    labels = comma(seq(-6000, 10000,2000))
   ) +
   scale_y_continuous(
     name = "Win Percentage",
@@ -60,7 +61,7 @@ plot <- ggplot() +
   guides(fill = guide_legend(override.aes = list(size = 7))) +
   theme_campbead()
 
-ggsave("figures/WinningPCT_Zoomed.png", plot, width = 10, height = 5.5, dpi = 300)
+ggsave("figures/WinningPCT_Lower.png", plot, width = 10, height = 5.5, dpi = 300)
 
 plot_data_unzoom <- calc_win_pct_by_chosen_offer_taken_offer_binned(players, 5000)
 

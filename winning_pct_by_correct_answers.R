@@ -56,7 +56,7 @@ plot <- ggplot() +
     labels = comma(seq(-6000, 10000,2000))
   ) +
   scale_y_continuous(
-    name = "Win Percentage",
+    name = "Chance to win head-to-head",
     labels = percent,
     expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)
@@ -113,7 +113,7 @@ plot <- ggplot() +
     labels = comma(seq(0, 12000,2000))
   ) +
   scale_y_continuous(
-    name = "Win Percentage",
+    name = "Chance to win head-to-head",
     labels = percent,
     expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)
@@ -166,7 +166,7 @@ plot <- ggplot() +
     labels = comma(seq(15000, 100000,5000))
   ) +
   scale_y_continuous(
-    name = "Win Percentage",
+    name = "Chance to win head-to-head",
     labels = percent,
     expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)

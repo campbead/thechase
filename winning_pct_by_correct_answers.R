@@ -56,7 +56,7 @@ plot <- ggplot() +
     labels = comma(seq(-6000, 10000,2000))
   ) +
   scale_y_continuous(
-    name = "Chance to win head-to-head",
+    name = "Chance to win Head-to-Head",
     labels = percent,
     expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)
@@ -113,7 +113,7 @@ plot <- ggplot() +
     labels = comma(seq(0, 12000,2000))
   ) +
   scale_y_continuous(
-    name = "Chance to win head-to-head",
+    name = "Chance to win Head-to-Head",
     labels = percent,
     expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)
@@ -166,7 +166,7 @@ plot <- ggplot() +
     labels = comma(seq(15000, 100000,5000))
   ) +
   scale_y_continuous(
-    name = "Chance to win head-to-head",
+    name = "Chance to win Head-to-Head",
     labels = percent,
     expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)
@@ -202,13 +202,13 @@ plot <- ggplot(
   labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS") +
 
   scale_x_continuous(
-    name = "Number of correct answers in cash builder",
+    name = "Number of correct answers in Cash Builder",
     breaks = seq(0,5) * 2,
     limits = c(0,10),
     expand = expansion(mult = c(0.02,0.02) )
     ) +
   scale_y_continuous(
-    name = "Chance to win head-to-head",
+    name = "Chance to win Head-to-Head",
     labels = percent,
     #expand = expansion(mult = c(0.5,0.05)),
     breaks = seq(0,1, 0.20)

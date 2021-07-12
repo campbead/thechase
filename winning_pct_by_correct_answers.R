@@ -10,6 +10,10 @@ load(file = "data/ChaseData.Rdata")
 # set colors
 my_colors = c("#207561", "#60A16D", "#a0cc78")
 
+
+
+
+## Lower Offer
 # get total offer wins table
 Total_offers_wins <- get_total_offer_wins(players)
 
@@ -64,6 +68,13 @@ plot <- ggplot() +
 ggsave("figures/WinningPCT_Lower.png", plot, width = 10, height = 5.5, dpi = 300)
 
 plot_data_unzoom <- calc_win_pct_by_chosen_offer_taken_offer_binned(players, 5000)
+
+## Middle offer plot
+
+
+
+
+
 
 ## Higher offer plot
 

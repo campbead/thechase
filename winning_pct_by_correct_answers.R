@@ -79,7 +79,7 @@ plot_data <- calc_win_pct_by_chosen_offer_taken_offer_binned(players, 1000)
 plot_data <- plot_data %>%
   filter(OfferTaken == "Middle")
 
-## plot lower offer
+## plot middle offer
 
 plot <- ggplot() +
   geom_hline(data = Total_offers_wins %>% filter(OfferTaken == "Middle"),

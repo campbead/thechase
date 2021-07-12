@@ -64,17 +64,19 @@ ggsave("figures/WinningPCT_Zoomed.png", plot, width = 10, height = 5.5, dpi = 30
 
 plot_data_unzoom <- calc_win_pct_by_chosen_offer_taken_offer_binned(players, 5000)
 
+## Higher offer plot
+
 plot_data <- plot_data_unzoom %>%
   filter(OfferTaken == "Higher")
 
 plot <- ggplot() +
-  geom_hline(data = Total_offers_wins,
+  geom_hline(data = Total_offers_wins %>% filter(OfferTaken == "Higher"),
              aes(color = OfferTaken, yintercept = pct),
              size = 1,
              show.legend = FALSE,
              linetype = "dotted") +
   geom_text(
-    data = Total_offers_wins,
+    data = Total_offers_wins %>% filter(OfferTaken == "Higher"),
     aes(x = 90000,
         y = pct,
         label = paste0("average for ", OfferTaken, " offer: ", round(pct * 100,0), "%")),
@@ -108,7 +110,7 @@ plot <- ggplot() +
   guides(fill = guide_legend(override.aes = list(size = 7))) +
   theme_campbead()
 
-ggsave("figures/WinningPCT.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)
+ggsave("figures/WinningPCT_Higher.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)
 
 plot_data <- calc_win_pct_by_correct_answers_taken_offer(players)
 

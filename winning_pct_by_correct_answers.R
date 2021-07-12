@@ -96,7 +96,7 @@ plot <- ggplot() +
              pch = 21) +
   geom_text(
     data = Total_offers_wins %>% filter(OfferTaken == "Middle"),
-    aes(x = 8400,
+    aes(x = 10400,
         y = pct,
         label = paste0("average for ", OfferTaken, " offer: ", round(pct * 100,0), "%")),
     family = "Fira Mono",

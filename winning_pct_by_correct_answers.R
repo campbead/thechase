@@ -159,7 +159,7 @@ plot <- ggplot() +
   scale_fill_manual(values = my_colors) +
   scale_color_manual(values = my_colors) +
   #ylim(0,1)+
-  xlab("Chosen offer (£) rounnded to nearest 5000") +
+  xlab("Chosen offer (£) rounnded to nearest five-thousand") +
   scale_x_continuous(
     breaks = seq(15000, 100000,5000),
     limits = c(15000, 100000),

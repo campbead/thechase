@@ -53,7 +53,7 @@ plot <- ggplot() +
              pch = 21) +
   geom_text(
     data = Total_offers_wins %>% filter(OfferTaken == "Lower"),
-    aes(x = 8400,
+    aes(x = 7400,
         y = pct,
         label = paste0("average for ", OfferTaken, " offer: ", round(pct * 100,0), "%")),
     family = "Fira Mono",
@@ -65,9 +65,9 @@ plot <- ggplot() +
 
   xlab("Chosen offer (£) rounded to nearest thousand") +
   scale_x_continuous(
-    breaks = seq(-6000, 10000,2000),
-    limits = c(-6000,10000),
-    labels = comma(seq(-6000, 10000,2000))
+    breaks = seq(-6000, 9000,2000),
+    limits = c(-6000,9000),
+    labels = comma(seq(-6000, 9000,2000))
   ) +
   scale_y_continuous(
     name = "Chance to win Head-to-Head",

@@ -8,16 +8,39 @@ summary: A deep dive into trends and analysis of the TV's The Chase
 tags: [The Chase, statistics] 
 ---
 
-## 
-
+## The project
+[The Chase](https://en.wikipedia.org/wiki/The_Chase_(British_game_show)) is a British quiz show running since 2009.  Players answer quiz questions to compete as a team against a quiz master, calle the Chaser.  The game consists of three main sections: the Cash Builder, the Head-to-Head and the Final Chase.  This post is the first in a series of exploring statistics of the Chase.
 
 ## Data
-Data for The Chase has been meticulous compiled on [One Question Shootout!](http://onequestionshootout.xyz/), ([Twitter](https://twitter.com/OneQnShootout)).  This website can cataloged a massive amount of data for The Chase's 14 (current) seasons.  There is data on each game: if the player or the chaser won, who the chaser was, total prize fund and much more.  For each player there is data on their performance in the cash builder, the head-to-head, the final chase.
+Data for The Chase has been meticulous compiled on [One Question Shootout!](http://onequestionshootout.xyz/), ([Twitter](https://twitter.com/OneQnShootout)).  This website has catalogued a massive amount of data for The Chase's 14 (current) seasons.  There is data on each game: if the player or the chaser won, who the chaser was, total prize fund and much more.  For each player there is data on their performance in the Cash Builder, the Head-to-Head, the Final Chase. 
 
-## Median score for the cash builder is 5
-Every player competes in the cash builder where they answer as many questions as they can in 60 seconds. The median score for this phase is 5.
+The data has been scraped and processed using a script available my [The Chase Repo](https://github.com/campbead/thechase/blob/master/ETL.R).
+
+## Median score for the Cash Builder is 5
+The first Every player competes in the Cash Builder where they answer as many questions as they can in 60 seconds. The median score for this phase is 5.
+
 ![Winning Percent](../figures/correct_answer_distribution.png)
-Each correct answer in this phase is worth £1,000 and the total sets the middle offer for the head-to-head phase.
-The distribution of correct answers is more-or-less bell shaped, with most players scoring between 4-6.
+Each correct answer in this phase is worth £1,000 and the total sets the middle offer for the Head-to-Head phase.  The distribution of correct answers is more-or-less bell shaped, with most players scoring between 4-6.
 
-## Head to head
+## Doing better in the Cash Builder means you'll do better in the Head-to-Head
+We can look at how likely players are to win their Head-to-Head based on the number of correct answers in the Cash Builder and the offer taken.
+Players are offered a higher offer and lower offer, in addition to the middle offer based on the correct answers during the Cash Builder.
+![Winning](../figures/WinningPCT_by_correct_and_offer.png)
+What is very clear here is the better a player does on on the Cash Builder round, the better their chances of winning the Head-to-Head and that is true for a player taking any of the offers.  A player taking a middle offer after answering 7 correct answers in the Cash Builder will have about a 70% chance of advancing into the Final Chase, whereas a player answering only 2 correct answers will only have about a 50% chance of advancing after taking a middle offer. It is also true picking the lower offer improves the player's chances of winning the Head-to-Head by about 9%, while picking the higher offer decreases the player's chances of winning the Head-to-Head by about 20%.
+
+- Value of Low and High doesn't affect win %
+We can also look at how the chance of winning the Head-to-Head is affected by the amount of the chosen offer
+
+![Winning Percent Lower](../figures/WinningPCT_Lower.png)
+![Winning Percent MIddle](../figures/WinningPCT_Middle.png)
+![Winning Percent Higher](../figures/WinningPCT_Higher.png)
+
+What is clear in the above figures is the chance is win isn't well correlated to the amount of the chosen offer, expect for middle offer which is because is middle offer amount is directly proportional to the amount of correct answers in Cash Builder round.
+
+## Future topics
+This is an ongoing series, in future posts I'll cover:
+
+- factors influencing the choice of higher, middle, and lower offers,
+- factors influencing the score in the Head-to-Head,
+- statistics of the Final Chase.
+

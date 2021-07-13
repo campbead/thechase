@@ -19,12 +19,26 @@ Total_offers_wins <- get_total_offer_wins(players)
 
 plot_data <- calc_win_pct_by_chosen_offer_taken_offer_binned(players, 1000)
 
+plot_data_regression <- calc_win_pct_by_chosen_offer_taken_offer_binned(players, 1)
+
 plot_data <- plot_data %>%
   filter(OfferTaken == "Lower")
 
 ## plot lower offer
 
 plot <- ggplot() +
+
+  geom_smooth(
+    data = plot_data_regression %>% filter(OfferTaken == "Lower"),
+    mapping = aes(x = ChosenOffer,
+                  y = win_pct,
+                  weight = total_time_selected,
+                  color = OfferTaken
+                  ),
+    method = "lm",
+    show.legend = FALSE
+  ) +
+
   geom_hline(data = Total_offers_wins %>% filter(OfferTaken == "Lower"),
              aes(color = OfferTaken, yintercept = pct),
              size = 1,
@@ -62,7 +76,14 @@ plot <- ggplot() +
     breaks = seq(0,1, 0.20)
   ) +
   labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS") +
-  guides(fill = guide_legend(override.aes = list(size = 7))) +
+  guides(
+    fill = guide_legend(
+      override.aes = list(size = 7),
+      order = 1
+    ),
+    size = guide_legend(
+      size = guide_legend(order = 2)
+    )) +
   theme_campbead()
 
 ggsave("figures/WinningPCT_Lower.png", plot, width = 10, height = 5.5, dpi = 300)
@@ -82,6 +103,16 @@ plot_data <- plot_data %>%
 ## plot middle offer
 
 plot <- ggplot() +
+  geom_smooth(
+    data = plot_data_regression %>% filter(OfferTaken == "Middle"),
+    mapping = aes(x = ChosenOffer,
+                  y = win_pct,
+                  weight = total_time_selected,
+                  color = OfferTaken
+    ),
+    method = "lm",
+    show.legend = FALSE
+  ) +
   geom_hline(data = Total_offers_wins %>% filter(OfferTaken == "Middle"),
              aes(color = OfferTaken, yintercept = pct),
              size = 1,
@@ -119,7 +150,14 @@ plot <- ggplot() +
     breaks = seq(0,1, 0.20)
   ) +
   labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS") +
-  guides(fill = guide_legend(override.aes = list(size = 7))) +
+  guides(
+    fill = guide_legend(
+      override.aes = list(size = 7),
+      order = 1
+    ),
+    size = guide_legend(
+      size = guide_legend(order = 2)
+    )) +
   theme_campbead()
 
 ggsave("figures/WinningPCT_Middle.png", plot, width = 10, height = 5.5, dpi = 300)
@@ -135,6 +173,17 @@ plot_data <- plot_data_unzoom %>%
   filter(OfferTaken == "Higher")
 
 plot <- ggplot() +
+  geom_smooth(
+    data = plot_data_regression %>% filter(OfferTaken == "Higher"),
+    mapping = aes(x = ChosenOffer,
+                  y = win_pct,
+                  weight = total_time_selected,
+                  color = OfferTaken
+    ),
+    method = "lm",
+    show.legend = FALSE
+  ) +
+
   geom_hline(data = Total_offers_wins %>% filter(OfferTaken == "Higher"),
              aes(color = OfferTaken, yintercept = pct),
              size = 1,
@@ -172,7 +221,14 @@ plot <- ggplot() +
     breaks = seq(0,1, 0.20)
   ) +
   labs(fill = "OFFER TAKEN", size = "TOTAL ATTEMPTS") +
-  guides(fill = guide_legend(override.aes = list(size = 7))) +
+  guides(
+    fill = guide_legend(
+      override.aes = list(size = 7),
+      order = 1
+      ),
+    size = guide_legend(
+      size = guide_legend(order = 2)
+    )) +
   theme_campbead()
 
 ggsave("figures/WinningPCT_Higher.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)
@@ -214,7 +270,14 @@ plot <- ggplot(
     breaks = seq(0,1, 0.20)
   ) +
 
-  guides(fill = guide_legend(override.aes = list(size = 7))) +
+  guides(
+    fill = guide_legend(
+      override.aes = list(size = 7),
+      order = 1
+    ),
+    size = guide_legend(
+      size = guide_legend(order = 2)
+    )) +
 
   theme_campbead()
 

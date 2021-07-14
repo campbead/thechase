@@ -17,8 +17,14 @@ answer_distribution <- players %>%
 # plot
 plot <- ggplot(data = answer_distribution) +
   geom_bar(aes(x = CorrectAnswers), stat, fill = "#60A16D") +
-  xlab("Number of correct answers in Cash Builder") +
-  ylab("Total count") +
+  #xlab("Number of correct answers in Cash Builder") +
+  ylab("Total players with score") +
+  scale_x_continuous(
+    name = "Number of correct answers in Cash Builder",
+    breaks = seq(0,7) * 2,
+    limits = c(-1,15),
+    expand = expansion(mult = c(0.02,0.02) )
+  ) +
   theme_campbead()
 
 ggsave(plot,

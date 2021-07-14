@@ -25,3 +25,32 @@ ggsave(plot,
        width = 5,
        height = 3,
        filename = "figures/correct_answer_distribution.png")
+
+## Cummulative distribuion
+plot <-
+  ggplot(
+    data = answer_distribution,
+    aes(x = CorrectAnswers)
+  ) +
+  stat_ecdf(
+    geom = "step",
+    position = position_nudge(x = -0.5, y = 0),
+    color = "#60A16D",
+    size = 1.5
+  ) +
+  scale_x_continuous(
+    name = "Number of correct answers in Cash Builder",
+    breaks = seq(0,7) * 2,
+    limits = c(0,14),
+    expand = expansion(mult = c(0.02,0.02) )
+  ) +
+  scale_y_continuous(
+    name = "Percent of players answers at least",
+    breaks = seq(from = 0, to = 1, by = 0.2),
+
+    labels = percent
+  ) +
+  theme_campbead()
+plot
+
+answer_distribution %>% filter(CorrectAnswers < 6) %>% summarise(foo =n())

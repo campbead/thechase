@@ -45,12 +45,14 @@ plot <-
     expand = expansion(mult = c(0.02,0.02) )
   ) +
   scale_y_continuous(
-    name = "Percent of players answers at least",
+    name = "Players scoring at least",
     breaks = seq(from = 0, to = 1, by = 0.2),
 
     labels = percent
   ) +
   theme_campbead()
-plot
 
-answer_distribution %>% filter(CorrectAnswers < 6) %>% summarise(foo =n())
+ggsave(plot,
+       width = 5,
+       height = 3,
+       filename = "figures/correct_answer_distribution_cummulative.png")

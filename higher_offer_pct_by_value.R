@@ -9,7 +9,7 @@ source("project_functions.R")
 load(file = "data/ChaseData.Rdata")
 
 # custom colors
-my_colors = c("#207561", "#589167", "#a0cc78")
+my_colors = c("#207561", "#60A16D", "#a0cc78")
 
 # cuts to use in bar graph
 high_offer_cuts =  c(
@@ -40,4 +40,4 @@ plot <- ggplot(plot_data, aes(fill=OfferTaken, y=count, x=cuts)) +
   scale_y_continuous(name = "Percentage of time offer is taken", labels = percent, expand = c(-1,1) )+
   theme_campbead()
 
-ggsave(plot, filename = "figures/How_enticing_is_the_higher_offer.png")
+ggsave(plot, filename = "figures/How_enticing_is_the_higher_offer.png", width = 8, height = 6, dpi = 300)

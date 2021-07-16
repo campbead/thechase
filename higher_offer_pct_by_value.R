@@ -28,16 +28,19 @@ plot_data <- players %>%
 
 plot_data$OfferTaken <- factor(plot_data$OfferTaken, levels = c("Higher", "Middle", "Lower"))
 
-plot <- ggplot(plot_data, aes(fill=OfferTaken, y=count, x=cuts)) +
-  geom_bar(position="fill", stat="identity")+
-  scale_fill_manual(values = my_colors)+
+plot <- ggplot(plot_data, aes(fill = OfferTaken, y = count, x = cuts)) +
+  geom_bar(position = "fill", stat = "identity") +
+  scale_fill_manual(values = my_colors) +
   scale_x_discrete(breaks = high_offer_breaks,
-                   labels= high_offer_labels)+
+                   labels = high_offer_labels) +
   xlab("Higher Offer Value (£)") +
-  labs(fill = "OFFER TAKEN")+
+  labs(fill = "OFFER TAKEN") +
   ggtitle("How enticing is the higher offer?") +
 
-  scale_y_continuous(name = "Percentage of time offer is taken", labels = percent, expand = c(-1,1) )+
+  scale_y_continuous(
+    name = "Percentage of time offer is taken",
+    labels = percent,
+    expand = c(-1,1) ) +
   theme_campbead()
 
 ggsave(plot, filename = "figures/How_enticing_is_the_higher_offer.png", width = 8, height = 6, dpi = 300)

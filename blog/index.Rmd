@@ -34,8 +34,17 @@ And alternative way to look at this data is as a cumulative probability graph se
 ![](../figures/correct_answer_distribution_cummulative.png)
 
 ## Low, Medium, High
+After the Cash Builder players are given the choice of a Higher, Lower, or Middle offer.  The middle offer is always £1,000 for each correct answer in the Cash Builder.   The Lower and Higher offers are always in fact, lower or higher than the middle offer.  The exact amount of the higher and lower offers isn't prescribed (but perhaps we can analyze what factors influnce those in a future post).
 
+Nearly 80 percent of players opt to take the middle offer. 
 
+![](../figures/Offer_choice_frequency.png)
+The number of correct answers don't appear to strongly influence the choice of offer with the distribution of offers not changing much based on the number of correct answers in the Cash Builder.  The exceptions to this are at the extreme lower end, where Higher and Lower offers become increasing more common, and at the extreme higher end, where middle offers are more likely.
+
+![](../figures/Offer_choice_frequency_by_correct_answer.png)
+The value of the higher offer does bear some influence over the choice of offer, with higher offers above £70,000 becoming increasing more likely to be chosen.
+
+![](../figures/How_enticing_is_the_higher_offer.png)
 
 ## Doing better in the Cash Builder means you'll do better in the Head-to-Head
 We can look at how likely players are to win their Head-to-Head based on the number of correct answers in the Cash Builder and the offer taken.

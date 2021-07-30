@@ -75,7 +75,7 @@ theme_campbead <- function(){
         ),
 
       axis.text.x = element_text(            #margin for axis text
-        margi n =margin(t = 4, r = 0, b = 4, l = 0, unit = "pt"),
+        margin = margin(t = 4, r = 0, b = 4, l = 0, unit = "pt"),
         angle = 30
         ),
 

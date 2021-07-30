@@ -24,6 +24,10 @@ plot <- ggplot(data = answer_distribution) +
     limits = c(-1,15),
     expand = expansion(mult = c(0.02,0.02) )
   ) +
+  labs(caption = "Data: onequestionshootout.xyz | Plot: @campbead") +
+  ggtitle("The Chase's Cash Builder:",
+          subtitle = "What is the distribution of correct answers?") +
+
   theme_campbead()
 
 ggsave(plot,
@@ -55,6 +59,9 @@ plot <-
 
     labels = percent
   ) +
+  labs(caption = "Data: onequestionshootout.xyz | Plot: @campbead") +
+  ggtitle("The Chase's Cash Builder:",
+          subtitle = "What is the distribution of correct answers?") +
   theme_campbead()
 
 ggsave(plot,

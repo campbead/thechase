@@ -29,7 +29,7 @@ theme_campbead <- function(){
         family = font_main,                  #set font family
         size = 20,                           #set font size
         face = 'bold',                       #bold typeface
-        margin=margin(
+        margin = margin(
           t = 4, r = 0, b = 4, l = 0, unit = "pt"
         )
       ),
@@ -37,7 +37,7 @@ theme_campbead <- function(){
       plot.subtitle = element_text(          #subtitle
         family = font_main,                  #font family
         size = 14,                           #font size
-        margin=margin(
+        margin = margin(
           t = 4, r = 0, b = 4, l = 0, unit = "pt"
         )
       ),
@@ -75,7 +75,7 @@ theme_campbead <- function(){
         ),
 
       axis.text.x = element_text(            #margin for axis text
-        margin=margin(t = 4, r = 0, b = 4, l = 0, unit = "pt"),
+        margi n =margin(t = 4, r = 0, b = 4, l = 0, unit = "pt"),
         angle = 30
         ),
 

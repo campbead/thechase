@@ -84,6 +84,10 @@ plot <- ggplot() +
     size = guide_legend(
       size = guide_legend(order = 2)
     )) +
+  labs(caption = "Data: onequestionshootout.xyz | Plot: @campbead") +
+  ggtitle("Player's Success in the Chase's Head-to-Head Round:",
+          subtitle = "How often do players taking the lower offer win the Head-to-Head based on the offer value?") +
+
   theme_campbead()
 
 ggsave("figures/WinningPCT_Lower.png", plot, width = 10, height = 5.5, dpi = 300)
@@ -158,6 +162,10 @@ plot <- ggplot() +
     size = guide_legend(
       size = guide_legend(order = 2)
     )) +
+  labs(caption = "Data: onequestionshootout.xyz | Plot: @campbead") +
+  ggtitle("Player's Success in the Chase's Head-to-Head Round:",
+          subtitle = "How often do players taking the middle offer win the Head-to-Head based on the offer value?") +
+
   theme_campbead()
 
 ggsave("figures/WinningPCT_Middle.png", plot, width = 10, height = 5.5, dpi = 300)
@@ -208,7 +216,7 @@ plot <- ggplot() +
   scale_fill_manual(values = my_colors) +
   scale_color_manual(values = my_colors) +
   #ylim(0,1)+
-  xlab("Chosen offer (£) rounnded to nearest five-thousand") +
+  xlab("Chosen offer (£) rounded to nearest five-thousand") +
   scale_x_continuous(
     breaks = seq(15000, 100000,5000),
     limits = c(15000, 100000),
@@ -229,6 +237,9 @@ plot <- ggplot() +
     size = guide_legend(
       size = guide_legend(order = 2)
     )) +
+  labs(caption = "Data: onequestionshootout.xyz | Plot: @campbead") +
+  ggtitle("Player's Success in the Chase's Head-to-Head Round:",
+          subtitle = "How often do players taking the higher offer win the Head-to-Head based on the offer value?") +
   theme_campbead()
 
 ggsave("figures/WinningPCT_Higher.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)
@@ -279,6 +290,9 @@ plot <- ggplot(
       size = guide_legend(order = 2)
     )) +
 
+  labs(caption = "Data: onequestionshootout.xyz | Plot: @campbead") +
+  ggtitle("Player's Success in the Chase's Head-to-Head Round:",
+          subtitle = "How often do players win the Head-to-Head based on Cash Builder performance?") +
   theme_campbead()
 
 ggsave("figures/WinningPCT_by_correct_and_offer.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)

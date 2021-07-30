@@ -24,7 +24,7 @@ plot <- ggplot(plot_data, aes(x = OfferTaken, fill = OfferTaken)) +
     "Percent of time offer is choosen",
     labels = scales::percent) +
   xlab("") +
-  ggtitle("The Chase's Head-to-Head offers:",
+  ggtitle("The Chase's Head-to-Head Offers:",
           subtitle = "How often are lower, middle, and higher offers picked in the Chase?") +
   theme_campbead() +
   theme(legend.position = "none")
@@ -55,7 +55,7 @@ plot <- ggplot(plot_data, aes(fill = OfferTaken, y = count, x = CB_Correct_Answe
     name = "Percentage of time offer is taken",
     labels = percent,
     expand = c(-1,1) ) +
-  ggtitle("The Chase's Head-to-Head offers:",
+  ggtitle("The Chase's Head-to-Head Offers:",
           subtitle = "Does the number of correct answers influence the offer choice?") +
   theme_campbead()
 

@@ -35,7 +35,10 @@ plot <- ggplot(plot_data, aes(fill = OfferTaken, y = count, x = cuts)) +
                    labels = high_offer_labels) +
   xlab("Higher Offer Value (£)") +
   labs(fill = "OFFER TAKEN") +
-  ggtitle("How enticing is the higher offer?") +
+  labs(caption = "Data: onequestionshootout.xyz | Plot: @campbead") +
+  ggtitle("The Chase's Head-to-Head Offers:",
+          subtitle = "How enticing is the higher offer?") +
+  #ggtitle("How enticing is the higher offer?") +
 
   scale_y_continuous(
     name = "Percentage of time offer is taken",

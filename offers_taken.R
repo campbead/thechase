@@ -19,10 +19,13 @@ plot_data$OfferTaken <- factor(plot_data$OfferTaken, levels = c("Higher", "Middl
 plot <- ggplot(plot_data, aes(x = OfferTaken, fill = OfferTaken)) +
   scale_fill_manual(values = my_colors) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
+  labs(caption = "Data: onequestionshootout.xyz | Plot: @campbead") +
   scale_y_continuous(
     "Percent of time offer is choosen",
     labels = scales::percent) +
   xlab("") +
+  ggtitle("The Chase's Head-to-Head offers:",
+          subtitle = "How often are lower, middle, and higher offers picked in the Chase?") +
   theme_campbead() +
   theme(legend.position = "none")
 
@@ -42,6 +45,7 @@ plot <- ggplot(plot_data, aes(fill = OfferTaken, y = count, x = CB_Correct_Answe
   geom_bar(position = "fill", stat = "identity") +
   scale_fill_manual(values = my_colors) +
   labs(fill = "OFFER TAKEN") +
+  labs(caption = "Data: onequestionshootout.xyz | Plot: @campbead") +
   scale_x_continuous(
     name = "Number of correct answers in Cash Builder",
     breaks = seq(0,14),
@@ -51,6 +55,8 @@ plot <- ggplot(plot_data, aes(fill = OfferTaken, y = count, x = CB_Correct_Answe
     name = "Percentage of time offer is taken",
     labels = percent,
     expand = c(-1,1) ) +
+  ggtitle("The Chase's Head-to-Head offers:",
+          subtitle = "Does the number of correct answers influence the offer choice?") +
   theme_campbead()
 
 ggsave(plot, filename = "figures/Offer_choice_frequency_by_correct_answer.png", width = 8, height = 4, dpi = 300)

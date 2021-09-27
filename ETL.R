@@ -122,6 +122,30 @@ getEpisodeData <- function(){
 
     mutate(ChaserAccuracy = str_replace(ChaserAccuracy, "%", "")) %>%
     mutate(ChaserAccuracy = as.numeric(ChaserAccuracy) / 100) %>%
+
+    # mark episode as special if it has asterix in chaser name
+    mutate(
+      SpecialEpisode = case_when(
+        grepl("*", `Chaser`, fixed = TRUE) == TRUE ~ TRUE,
+        TRUE ~ FALSE
+      )
+    )%>%
+
+    # Change asterixed Anne Hegerty episodes
+    mutate(
+      Chaser = replace(Chaser, Chaser == 'Anne Hegerty *', 'Anne Hegerty')
+    ) %>%
+
+    # Separate Target Column
+    tidyr::separate("Target", into = c("InitialTarget", "InitialPushbacks"), sep = "\\+" ) %>%
+
+    mutate(InitialTarget = as.numeric(InitialTarget)) %>%
+
+    tidyr::replace_na(list(InitialPushbacks = 0)) %>%
+    mutate(InitialPushbacks = as.numeric(InitialPushbacks)) %>%
+
+    mutate(InitialTotal = InitialTarget + InitialPushbacks, .before = InitialTarget) %>%
+
     select(-c(`Winner`,`FinalChaseVideo`))
   return(data_episode)
 }

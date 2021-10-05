@@ -146,6 +146,14 @@ getEpisodeData <- function(){
 
     mutate(InitialTotal = InitialTarget + InitialPushbacks, .before = InitialTarget) %>%
 
-    select(-c(`Winner`,`FinalChaseVideo`))
+    select(-c(`Winner`,`FinalChaseVideo`)) %>%
+
+    # change datatypes
+    mutate(
+      Date = as.Date(Date, "%d/%m/%Y"),
+      Chaser = as.factor(Chaser),
+      FC_Winner = as.factor(FC_Winner)
+    )
+
   return(data_episode)
 }

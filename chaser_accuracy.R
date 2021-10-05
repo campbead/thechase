@@ -74,3 +74,36 @@ plot <- ggplot() +
   camptheme::theme_campbead()
 
 ggsave("figures/Chaser_Accuracy.png", plot, width = 10, height = 5.5, units = "in",  dpi = 300)
+
+
+
+# Calculate a few stats
+
+# overall chaser accuracy
+
+chaser_wins_overall <- episodes %>%
+  filter(FC_Winner == "Chaser") %>%
+  group_by(Chaser) %>%
+  summarise(
+    wins_total = n()
+  )
+
+chaser_total_overall <- episodes %>%
+  group_by(Chaser) %>%
+  summarise(
+    total = n()
+  )
+
+chaser_overall <- left_join(chaser_total_overall, chaser_wins_overall, by= c("Chaser")) %>%
+  mutate(across(everything(), ~ ifelse(is.na(.), 0, .))) %>%
+  mutate(pct = wins_total / total)
+
+# weighted chaser accuracy
+weighted_chaser_accuracy <- chaser %>%
+  group_by(Chaser) %>%
+  summarise(weighted_total = sum(InitialTarget * total),
+            weighted_wins = sum(InitialTarget * wins_total)) %>%
+  mutate(weighted_accuracy = weighted_wins / weighted_total)
+
+
+chaser_overall <- left_join(chaser_overall, weighted_chaser_accuracy, by = c("Chaser"))
